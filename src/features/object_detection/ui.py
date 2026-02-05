@@ -58,14 +58,14 @@ def render_ui():
             (text_w, text_h), baseline = cv2.getTextSize(
                 text, 
                 cv2.FONT_HERSHEY_SIMPLEX,
-                0.6,
-                2
+                0.5,
+                1
             )
 
             cv2.rectangle(
                 draw_img,
-                (x1, y1 -text_h - 10),
-                (x1 + text_w + 6, y1),
+                (x1, y1 -text_h - 2),
+                (x1 + text_w + 2, y1),
                 color,
                 -1
             )
@@ -73,11 +73,11 @@ def render_ui():
             cv2.putText(
                 draw_img,
                 text,
-                (x1 + 3, y1 - 5),
+                (x1 + 2, y1 - 5),
                 cv2.FONT_HERSHEY_SIMPLEX,
-                0.6,
+                0.4,
                 (0, 0, 0),
-                2
+                1
             )
         
         st.image(draw_img, caption="Detection Result", use_container_width=True)
