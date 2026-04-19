@@ -30,3 +30,9 @@ def init_state() -> None:
 
     if "call_status" not in st.session_state:
         st.session_state.call_status = "Lobby"
+
+    if "start_with_mic_muted" not in st.session_state:
+        st.session_state.start_with_mic_muted = False
+
+    if "start_with_camera_off" not in st.session_state:
+        st.session_state.start_with_camera_off = False
