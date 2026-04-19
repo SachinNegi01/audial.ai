@@ -6,12 +6,18 @@ from PIL import Image
 from src.utils.colors import get_color_for_label
 from src.features.object_detection.model import load_yolo_model
 from src.features.object_detection.inference import run_detection
+from src.features.object_detection.inference import cached_detection
+from src.utils.image_hash import hash_image
 
 def render_ui():
     st.subheader("Object Detection (YOLO)")
+    st.write(
+        "Upload a frame or image from the call to test the object detection feature that can later "
+        "be attached to a live video stream."
+    )
 
     st.slider(
-        "confidence Threshold",
+        "Confidence threshold",
           min_value = 0.1,
           max_value = 1.0,
           step = 0.05,
@@ -34,7 +40,13 @@ def render_ui():
     if st.button("Run Object Detection"):
         with st.spinner("Loading model..."):
             model = load_yolo_model()
-            detection = run_detection(model, image_np, st.session_state.confidence_threshold)
+            img_hash = hash_image(image_np)
+            detection = cached_detection(
+                img_hash,
+                st.session_state.confidence_threshold,
+                image_np,
+                model
+            )
         
         if not detection:
             st.warning("No objects detected.")
