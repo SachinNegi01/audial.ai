@@ -6,6 +6,7 @@ APP_TAGLINE = "Conference-ready accessibility features for live video calls."
 CONFIDENCE_THRESHOLD = 0.5
 DEFAULT_PUBLIC_APP_URL = os.getenv("PUBLIC_APP_URL", "").rstrip("/")
 JITSI_DOMAIN = os.getenv("JITSI_DOMAIN", "meet.jit.si")
+WEBRTC_ICE_SERVERS = [{"urls": ["stun:stun.l.google.com:19302"]}]
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
