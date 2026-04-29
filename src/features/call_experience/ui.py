@@ -53,45 +53,50 @@ def _render_top_bar() -> None:
 def _render_lobby_controls() -> None:
     with st.container(border=True):
         st.markdown("#### Join Call")
-        room_col, name_col, lang_col = st.columns([1.2, 1, 1])
+        with st.form("join_call_form", border=False):
+            room_col, name_col, lang_col = st.columns([1.2, 1, 1])
 
-        with room_col:
-            room_value = st.text_input("Room ID", key="meeting_room_id")
+            with room_col:
+                room_value = st.text_input(
+                    "Room ID",
+                    value=st.session_state.meeting_room_id,
+                )
+
+            with name_col:
+                st.text_input("Display name", key="display_name")
+
+            with lang_col:
+                st.selectbox(
+                    "Preferred language",
+                    options=[
+                        "English",
+                        "Hindi",
+                        "Spanish",
+                        "French",
+                        "German",
+                        "Japanese",
+                    ],
+                    key="preferred_language",
+                )
+
+            settings_col, action_col, info_col = st.columns([1.3, 1, 2])
+            with settings_col:
+                st.toggle("Start muted", key="start_with_mic_muted")
+                st.toggle("Start with camera off", key="start_with_camera_off")
+            with action_col:
+                submitted = st.form_submit_button("Join Room", use_container_width=True)
+            with info_col:
+                st.info(
+                    "Share the room link with others. Everyone who opens the same `?room=` link joins "
+                    "the same live video meeting."
+                )
+
+        if submitted:
             normalized_room = _normalize_room_id(room_value)
-            if normalized_room != room_value:
-                st.session_state.meeting_room_id = normalized_room
-
-        with name_col:
-            st.text_input("Display name", key="display_name")
-
-        with lang_col:
-            st.selectbox(
-                "Preferred language",
-                options=[
-                    "English",
-                    "Hindi",
-                    "Spanish",
-                    "French",
-                    "German",
-                    "Japanese",
-                ],
-                key="preferred_language",
-            )
-
-        settings_col, action_col, info_col = st.columns([1.3, 1, 2])
-        with settings_col:
-            st.toggle("Start muted", key="start_with_mic_muted")
-            st.toggle("Start with camera off", key="start_with_camera_off")
-        with action_col:
-            if st.button("Join Room", use_container_width=True):
-                st.session_state.joined_call = True
-                st.session_state.call_status = "Live"
-                st.query_params["room"] = st.session_state.meeting_room_id
-        with info_col:
-            st.info(
-                "Share the room link with others. Everyone who opens the same `?room=` link joins "
-                "the same live video meeting."
-            )
+            st.session_state.meeting_room_id = normalized_room
+            st.session_state.joined_call = True
+            st.session_state.call_status = "Live"
+            st.query_params["room"] = normalized_room
 
 
 def _render_live_meeting() -> None:
