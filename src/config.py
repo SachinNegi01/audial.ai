@@ -15,6 +15,7 @@ YOLO_MODEL_CANDIDATES = [
     PROJECT_ROOT / "src" / "models" / "yolo" / "custom_yolo.pt",
     PROJECT_ROOT / "src" / "models" / "yolo" / "yolov8n.pt",
     PROJECT_ROOT / "yolov8n.pt",
+    PROJECT_ROOT / "models" / "yolo" / "my_yolo3.pt",
 ]
 
 FEATURES = {

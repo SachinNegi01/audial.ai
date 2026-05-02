@@ -8,14 +8,14 @@ import cv2
 import streamlit as st
 try:
     from streamlit_webrtc import VideoProcessorBase, WebRtcMode, webrtc_streamer
-except ModuleNotFoundError:  # pragma: no cover - environment dependent
+except ModuleNotFoundError:
     VideoProcessorBase = object
     WebRtcMode = None
     webrtc_streamer = None
 
 try:
     import av
-except ModuleNotFoundError:  # pragma: no cover - environment dependent
+except ModuleNotFoundError:
     av = None
 
 from src.config import WEBRTC_ICE_SERVERS
